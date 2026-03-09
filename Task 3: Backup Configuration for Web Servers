@@ -1,0 +1,74 @@
+# Creating Backup Directory
+
+#To create directory
+sudo mkdir /backups
+
+#To change permission of the backups
+sudo chmod 755 /backups
+
+#To verify if backups directory created
+ls -ld /backups
+
+#=======================================================================
+
+#Backup Script for Sarah (Apache Server)
+
+sudo nano /home/Sarah/apache_backup.sh
+
+#To make backup file executable
+
+sudo chmod +x /home/Sarah/apache_backup.sh
+
+#=======================================================================
+#Bash Scripts for backups are in a different files
+#=======================================================================
+
+
+#Backup Script for Mike(Nginx Server)
+
+sudo nano /home/Mike/nginx_backup.sh
+
+#To make backup file executable
+
+sudo chmod +x /home/Mike/nginx_backup.sh
+
+#=======================================================================
+
+#To test the Backup Scripts
+sudo /home/Sarah/apache_backup.sh
+sudo /home/Mike/nginx_backup.sh
+
+#=======================================================================
+
+#To check backup
+ls /backups
+
+#=======================================================================
+
+#To verify Backup Integrity 
+
+cat /backups/apache_backup_log.txt
+cat /backups/nginx_backup_log.txt
+
+#=======================================================================
+
+Scheduling Cron for automation
+
+#Backup must run every Tuesdat at 12:00 AM
+
+#Cron Format
+# * * * * *
+# minute hour day_of_month month day_of_week
+
+#To edit crontab
+
+sudo crontab -e
+
+#For Sarah's automation
+
+0 0 * * 2 /home/Sarah/apache_backup.sh
+
+#For Mike's automation
+
+0 0 * * 2 /home/Mike/nginx_backup.sh
+
