@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Log file location
+LOG_DIR="$HOME/monitoring_logs"
+LOG_FILE="$LOG_DIR/system_report.log"
+
+# Create log directory if it does not exist
+mkdir -p $LOG_DIR
+
+echo "====================================" >> $LOG_FILE
+echo "System Monitoring Report - $(date)" >> $LOG_FILE
+echo "====================================" >> $LOG_FILE
+
+# CPU Usage
+echo "" >> $LOG_FILE
+echo "CPU Usage:" >> $LOG_FILE
+top -b -n1 | grep "Cpu(s)" >> $LOG_FILE
+
+# Memory Usage
+echo "" >> $LOG_FILE
+echo "Memory Usage:" >> $LOG_FILE
+free -m >> $LOG_FILE
+
+# Disk Usage
+echo "" >> $LOG_FILE
+echo "Disk Usage (Filesystem):" >> $LOG_FILE
+df -h >> $LOG_FILE
+
+# Directory Storage Analysis
+echo "" >> $LOG_FILE
+echo "Top Directories by Size (/home):" >> $LOG_FILE
+du -h /home --max-depth=1 2>/dev/null | sort -hr | head -5 >> $LOG_FILE
+
+# Process Monitoring
+echo "" >> $LOG_FILE
+echo "Top CPU Consuming Processes:" >> $LOG_FILE
+ps aux --sort=-%cpu | head -10 >> $LOG_FILE
+
+echo "" >> $LOG_FILE
+echo "Top Memory Consuming Processes:" >> $LOG_FILE
+ps aux --sort=-%mem | head -10 >> $LOG_FILE
+
+echo "" >> $LOG_FILE
+echo "End of Report" >> $LOG_FILE
+echo "====================================" >> $LOG_FILE
